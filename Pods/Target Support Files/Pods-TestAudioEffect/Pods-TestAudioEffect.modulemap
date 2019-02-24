@@ -1,0 +1,6 @@
+framework module Pods_TestAudioEffect {
+  umbrella header "Pods-TestAudioEffect-umbrella.h"
+
+  export *
+  module * { export * }
+}
