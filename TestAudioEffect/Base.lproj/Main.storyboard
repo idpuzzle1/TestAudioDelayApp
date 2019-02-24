@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Audio Previews-->
         <scene sceneID="wP0-Ib-ei6">
             <objects>
-                <tableViewController id="nlj-i4-8Vv" customClass="AudioPreviewsViewController" customModule="TestAudioEffect" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Audio Previews" id="nlj-i4-8Vv" customClass="AudioPreviewsViewController" customModule="TestAudioEffect" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rwZ-oN-ygM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,34 +22,66 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AudioPreviewCell" rowHeight="128" id="jAk-Ur-y3r" customClass="AudioPreviewCell" customModule="TestAudioEffect" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jAk-Ur-y3r" id="D6Q-Wa-dnn">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jAk-Ur-y3r" id="D6Q-Wa-dnn">
                                     <rect key="frame" x="0.0" y="0.0" width="341" height="127.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Mp-M9-mZB">
-                                            <rect key="frame" x="8" y="8" width="111.5" height="111.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="5Mp-M9-mZB" secondAttribute="height" multiplier="1:1" id="ob2-pz-jOC"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWf-wQ-CAT">
-                                            <rect key="frame" x="127.5" y="8" width="197.5" height="20.5"/>
+                                            <rect key="frame" x="80" y="8" width="245" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZS-R1-apj">
+                                            <rect key="frame" x="8" y="8" width="64" height="64"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8vk-3l-xvQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                                </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8XL-d0-MpG">
+                                                    <rect key="frame" x="22" y="22" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GPk-ju-c0Z">
+                                                    <rect key="frame" x="8" y="8" width="48" height="48"/>
+                                                    <state key="normal" title="Button" image="play"/>
+                                                    <state key="selected" image="pause"/>
+                                                    <connections>
+                                                        <action selector="playPause:" destination="jAk-Ur-y3r" eventType="touchUpInside" id="Y1B-Sd-9YR"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="GPk-ju-c0Z" secondAttribute="trailing" constant="8" id="0E3-T7-YXV"/>
+                                                <constraint firstItem="GPk-ju-c0Z" firstAttribute="top" secondItem="EZS-R1-apj" secondAttribute="top" constant="8" id="1N5-3r-ohD"/>
+                                                <constraint firstItem="8vk-3l-xvQ" firstAttribute="leading" secondItem="EZS-R1-apj" secondAttribute="leading" id="9fm-OS-d1n"/>
+                                                <constraint firstItem="GPk-ju-c0Z" firstAttribute="leading" secondItem="EZS-R1-apj" secondAttribute="leading" constant="8" id="BLB-HW-mc7"/>
+                                                <constraint firstItem="8vk-3l-xvQ" firstAttribute="top" secondItem="EZS-R1-apj" secondAttribute="top" id="C7V-S5-lw2"/>
+                                                <constraint firstItem="8XL-d0-MpG" firstAttribute="centerX" secondItem="EZS-R1-apj" secondAttribute="centerX" id="Pw4-Td-gBD"/>
+                                                <constraint firstItem="8XL-d0-MpG" firstAttribute="centerY" secondItem="EZS-R1-apj" secondAttribute="centerY" id="TZf-0h-oyS"/>
+                                                <constraint firstAttribute="height" constant="64" id="XpU-XS-cIX"/>
+                                                <constraint firstAttribute="width" secondItem="EZS-R1-apj" secondAttribute="height" multiplier="1:1" id="cDA-qO-WfR"/>
+                                                <constraint firstAttribute="trailing" secondItem="8vk-3l-xvQ" secondAttribute="trailing" id="d2f-b0-u6b"/>
+                                                <constraint firstAttribute="bottom" secondItem="8vk-3l-xvQ" secondAttribute="bottom" id="fGm-Yt-Dhm"/>
+                                                <constraint firstAttribute="bottom" secondItem="GPk-ju-c0Z" secondAttribute="bottom" constant="8" id="twf-0d-tF4"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CWf-wQ-CAT" secondAttribute="bottom" constant="8" id="4rq-BR-u4f"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="CWf-wQ-CAT" secondAttribute="trailing" constant="8" id="5DH-we-5pl"/>
-                                        <constraint firstItem="CWf-wQ-CAT" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="5Mp-M9-mZB" secondAttribute="bottom" id="Dcv-Kp-Qx8"/>
-                                        <constraint firstItem="CWf-wQ-CAT" firstAttribute="leading" secondItem="5Mp-M9-mZB" secondAttribute="trailing" constant="8" id="Ea1-pl-5Jy"/>
-                                        <constraint firstAttribute="bottom" secondItem="5Mp-M9-mZB" secondAttribute="bottom" constant="8" id="FX5-x0-Rfk"/>
-                                        <constraint firstItem="CWf-wQ-CAT" firstAttribute="top" secondItem="5Mp-M9-mZB" secondAttribute="top" id="R90-c7-SRB"/>
-                                        <constraint firstItem="5Mp-M9-mZB" firstAttribute="top" secondItem="D6Q-Wa-dnn" secondAttribute="top" constant="8" id="Vmx-mS-KBu"/>
-                                        <constraint firstItem="5Mp-M9-mZB" firstAttribute="leading" secondItem="D6Q-Wa-dnn" secondAttribute="leading" constant="8" id="daG-Ps-91e"/>
+                                        <constraint firstItem="CWf-wQ-CAT" firstAttribute="top" secondItem="EZS-R1-apj" secondAttribute="top" id="DEL-Tg-SdR"/>
+                                        <constraint firstItem="EZS-R1-apj" firstAttribute="top" secondItem="D6Q-Wa-dnn" secondAttribute="top" constant="8" id="HTA-RM-C7W"/>
+                                        <constraint firstAttribute="bottom" secondItem="EZS-R1-apj" secondAttribute="bottom" constant="8" id="O7y-oQ-tvA"/>
+                                        <constraint firstItem="EZS-R1-apj" firstAttribute="leading" secondItem="D6Q-Wa-dnn" secondAttribute="leading" constant="8" id="aeH-8F-Jlu"/>
+                                        <constraint firstItem="CWf-wQ-CAT" firstAttribute="leading" secondItem="EZS-R1-apj" secondAttribute="trailing" constant="8" id="sTR-rV-wRJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="audioLoadingIndicator" destination="8XL-d0-MpG" id="NRb-4N-gml"/>
+                                    <outlet property="audioName" destination="CWf-wQ-CAT" id="NA0-ct-GTC"/>
+                                    <outlet property="playAudioButton" destination="GPk-ju-c0Z" id="0AB-h4-Brc"/>
+                                    <outlet property="thumbImageView" destination="8vk-3l-xvQ" id="ITu-wx-2pW"/>
                                     <segue destination="mR2-p4-kFm" kind="show" id="ZOb-GS-JBk"/>
                                 </connections>
                             </tableViewCell>
@@ -59,23 +91,40 @@
                             <outlet property="delegate" destination="nlj-i4-8Vv" id="DWe-Kt-cgc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="LkB-Jn-4es"/>
+                    <navigationItem key="navigationItem" title="Audio Previews" id="LkB-Jn-4es"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hVQ-7n-VXW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="280.80000000000001" y="214.54272863568218"/>
         </scene>
-        <!--View Controller-->
+        <!--Delaying-->
         <scene sceneID="2Ft-Yh-0mE">
             <objects>
-                <viewController id="mR2-p4-kFm" sceneMemberID="viewController">
+                <viewController title="Delaying" id="mR2-p4-kFm" customClass="AudioEffectViewController" customModule="TestAudioEffect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0EE-d6-iiZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="noz-Uv-1cG" customClass="TouchSquareView" customModule="TestAudioEffect" customModuleProvider="target">
+                                <rect key="frame" x="8" y="154.5" width="359" height="358"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="noz-Uv-1cG" secondAttribute="height" multiplier="1:1" constant="1" id="WWi-Vm-Obk"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="noz-Uv-1cG" firstAttribute="centerY" secondItem="0EE-d6-iiZ" secondAttribute="centerY" id="OdB-DY-abA"/>
+                            <constraint firstItem="noz-Uv-1cG" firstAttribute="leading" secondItem="3UJ-Yk-F8G" secondAttribute="leading" constant="8" id="OpE-kB-HoT"/>
+                            <constraint firstItem="3UJ-Yk-F8G" firstAttribute="trailing" secondItem="noz-Uv-1cG" secondAttribute="trailing" constant="8" id="RdH-Q7-HAX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3UJ-Yk-F8G"/>
                     </view>
-                    <navigationItem key="navigationItem" id="x4a-5T-iOW"/>
+                    <navigationItem key="navigationItem" title="Delaying" id="x4a-5T-iOW"/>
+                    <connections>
+                        <outlet property="touchDelayEffectView" destination="noz-Uv-1cG" id="feE-CP-bl5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NFQ-do-DmB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -98,4 +147,8 @@
             <point key="canvasLocation" x="-494" y="215"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pause" width="1200" height="1200"/>
+        <image name="play" width="384" height="384"/>
+    </resources>
 </document>

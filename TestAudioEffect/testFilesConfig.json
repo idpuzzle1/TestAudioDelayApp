@@ -1,0 +1,85 @@
+[{
+	"id": 103,
+	"name": "Christmas Cake",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/106/106_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/106/106_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/106/106_cover.png"
+},{
+	"id": 104,
+	"name": "Blades",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/107/107_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/107/107_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/107/107_cover.png"
+},{
+	"id": 105,
+	"name": "Metal DnB",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/108/108_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/108/108_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/108/108_cover.png"
+},{
+	"id": 106,
+	"name": "Mestery",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/109/109_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/109/109_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/109/109_cover.png"
+}, {
+	"id": 107,
+	"name": "Pharaohs Delight",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/110/110_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/110/110_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/110/110_cover.png"
+}, {
+	"id": 108,
+	"name": "Half Time",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/111/wav/111_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/111/111_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/111/111_cover.png"
+}, {
+	"id": 109,
+	"name": "Puzzle",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/112/wav/112_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/112/112_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/112/112_cover.png"
+}, {
+	"id": 110,
+	"name": "Sunset",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/113/wav/113_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/113/113_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/113/113_cover.png"
+}, {
+	"id": 111,
+	"name": "Day Anthem",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/114/wav/114_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/114/114_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/114/114_cover.png"
+}, {
+	"id": 112,
+	"name": "X You",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/115/wav/115_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/115/115_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/115/115_cover.png"
+}, {
+	"id": 113,
+	"name": "Pasadena",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/116/wav/116_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/116/116_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/116/116_cover.png"
+}, {
+	"id": 114,
+	"name": "Low Hop",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/117/wav/117_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/117/117_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/117/117_cover.png"
+}, {
+	"id": 115,
+	"name": "Just Future",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/118/wav/118_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/118/118_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/118/118_cover.png"
+}, {
+	"id": 116,
+	"name": "Ethnic Vibe",
+	"path": "http://dev.drumpads24.com/dev/presets/drumpads24/119/wav/119_samples44.zip",
+	"audio": "http://dev.drumpads24.com/dev/presets/drumpads24/119/119_audiopreview.mp3",
+	"image": "http://dev.drumpads24.com/dev/presets/drumpads24/119/119_cover.png"
+}]

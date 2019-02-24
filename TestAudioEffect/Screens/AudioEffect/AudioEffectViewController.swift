@@ -1,5 +1,5 @@
 //
-//  AudioPreviewCell.swift
+//  AudioEffectViewController.swift
 //  TestAudioEffect
 //
 //  Created by Антон Уханкин on 24/02/2019.
@@ -8,6 +8,7 @@
 
 import UIKit
 
-class AudioPreviewCell: UITableViewCell {
+class AudioEffectViewController: UIViewController {
     
+    @IBOutlet weak var touchDelayEffectView: TouchSquareView!
 }

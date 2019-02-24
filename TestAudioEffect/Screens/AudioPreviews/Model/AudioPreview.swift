@@ -8,18 +8,29 @@
 
 import UIKit
 
-struct AudioPreview {
+struct AudioPreview: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case identifier = "id"
+        case name
+        case thumbLink = "image"
+        case audioPreviewLink = "audio"
+    }
     
     let identifier:Int
     var name: String
-    var thumb: UIImage?
-    var audioPreview: Data?
+    var thumbLink: URL?
+    var audioPreviewLink: URL?
     
-    init(identifier: Int, name: String, thumb: UIImage? = nil, audioPreview: Data? = nil) {
+    init(identifier: Int, name: String, thumbLink: URL? = nil, audioPreviewLink: URL? = nil) {
         self.identifier = identifier
         self.name = name
-        self.thumb = thumb
-        self.audioPreview = audioPreview
+        self.thumbLink = thumbLink
+        self.audioPreviewLink = audioPreviewLink
     }
-    
+}
+
+extension AudioPreview: Equatable {
+    public static func == (lhs: AudioPreview, rhs: AudioPreview) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
 }

@@ -7,6 +7,7 @@ target 'TestAudioEffect' do
 
   # Pods for TestAudioEffect
   pod 'Alamofire'
+  pod 'CodableAlamofire'
   pod 'AlamofireImage'
 
   target 'TestAudioEffectTests' do

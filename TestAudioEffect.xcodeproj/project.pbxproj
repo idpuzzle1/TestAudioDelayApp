@@ -15,8 +15,14 @@
 		042DB34D22228EDE0062F7A8 /* TestAudioEffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB34C22228EDE0062F7A8 /* TestAudioEffectTests.swift */; };
 		042DB35B222293060062F7A8 /* AudioPreviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB35A222293060062F7A8 /* AudioPreviewsViewController.swift */; };
 		042DB35D22229A820062F7A8 /* AudioPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB35C22229A820062F7A8 /* AudioPreviewCell.swift */; };
-		042DB36022229B220062F7A8 /* AudioPreviewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB35F22229B220062F7A8 /* AudioPreviewsModel.swift */; };
+		042DB36022229B220062F7A8 /* AudioPreviewsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB35F22229B220062F7A8 /* AudioPreviewsFetcher.swift */; };
 		042DB36222229B450062F7A8 /* AudioPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DB36122229B450062F7A8 /* AudioPreview.swift */; };
+		044D29BB2222C5F900EB6298 /* testFilesConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 044D29BA2222C5F900EB6298 /* testFilesConfig.json */; };
+		044D29C22222D2CE00EB6298 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044D29C12222D2CE00EB6298 /* Operation.swift */; };
+		044D29C42222F04200EB6298 /* 106_audiopreview.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 044D29C32222F04200EB6298 /* 106_audiopreview.mp3 */; };
+		04EE32C82222FD69004AF339 /* AudioPreviewPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */; };
+		04EE32CC22232C28004AF339 /* AudioEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */; };
+		04EE32CF22232C92004AF339 /* TouchSquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32CE22232C92004AF339 /* TouchSquareView.swift */; };
 		35A98D3A88DC9FAF902B805E /* Pods_TestAudioEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DF8A2DE7C60FDE6761026F /* Pods_TestAudioEffect.framework */; };
 		80D5B484EDB9AA5EEC27EC60 /* Pods_TestAudioEffectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81746CBD5ED4BAE4C1C80981 /* Pods_TestAudioEffectTests.framework */; };
 /* End PBXBuildFile section */
@@ -44,8 +50,14 @@
 		042DB34E22228EDE0062F7A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042DB35A222293060062F7A8 /* AudioPreviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewsViewController.swift; sourceTree = "<group>"; };
 		042DB35C22229A820062F7A8 /* AudioPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewCell.swift; sourceTree = "<group>"; };
-		042DB35F22229B220062F7A8 /* AudioPreviewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewsModel.swift; sourceTree = "<group>"; };
+		042DB35F22229B220062F7A8 /* AudioPreviewsFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewsFetcher.swift; sourceTree = "<group>"; };
 		042DB36122229B450062F7A8 /* AudioPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreview.swift; sourceTree = "<group>"; };
+		044D29BA2222C5F900EB6298 /* testFilesConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFilesConfig.json; sourceTree = "<group>"; };
+		044D29C12222D2CE00EB6298 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		044D29C32222F04200EB6298 /* 106_audiopreview.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 106_audiopreview.mp3; sourceTree = "<group>"; };
+		04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewPlayer.swift; sourceTree = "<group>"; };
+		04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEffectViewController.swift; sourceTree = "<group>"; };
+		04EE32CE22232C92004AF339 /* TouchSquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchSquareView.swift; sourceTree = "<group>"; };
 		41944A5BA0DEC59F1FE53C6D /* Pods-TestAudioEffectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAudioEffectTests.debug.xcconfig"; path = "Target Support Files/Pods-TestAudioEffectTests/Pods-TestAudioEffectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D2A2CB271CAD48F2186AB50 /* Pods-TestAudioEffectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAudioEffectTests.release.xcconfig"; path = "Target Support Files/Pods-TestAudioEffectTests/Pods-TestAudioEffectTests.release.xcconfig"; sourceTree = "<group>"; };
 		81746CBD5ED4BAE4C1C80981 /* Pods_TestAudioEffectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestAudioEffectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +109,10 @@
 		042DB33622228EDC0062F7A8 /* TestAudioEffect */ = {
 			isa = PBXGroup;
 			children = (
+				044D29C02222D2B500EB6298 /* Services */,
 				042DB357222292880062F7A8 /* Screens */,
+				044D29BA2222C5F900EB6298 /* testFilesConfig.json */,
+				044D29C32222F04200EB6298 /* 106_audiopreview.mp3 */,
 				042DB33722228EDC0062F7A8 /* AppDelegate.swift */,
 				042DB33922228EDC0062F7A8 /* ViewController.swift */,
 				042DB33B22228EDC0062F7A8 /* Main.storyboard */,
@@ -129,9 +144,9 @@
 		042DB358222292940062F7A8 /* AudioPreviews */ = {
 			isa = PBXGroup;
 			children = (
+				044D29BC2222CE7C00EB6298 /* View */,
 				042DB35E22229B120062F7A8 /* Model */,
 				042DB35A222293060062F7A8 /* AudioPreviewsViewController.swift */,
-				042DB35C22229A820062F7A8 /* AudioPreviewCell.swift */,
 			);
 			path = AudioPreviews;
 			sourceTree = "<group>";
@@ -139,6 +154,8 @@
 		042DB359222292AB0062F7A8 /* AudioEffect */ = {
 			isa = PBXGroup;
 			children = (
+				04EE32CD22232C3D004AF339 /* View */,
+				04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */,
 			);
 			path = AudioEffect;
 			sourceTree = "<group>";
@@ -147,9 +164,42 @@
 			isa = PBXGroup;
 			children = (
 				042DB36122229B450062F7A8 /* AudioPreview.swift */,
-				042DB35F22229B220062F7A8 /* AudioPreviewsModel.swift */,
+				042DB35F22229B220062F7A8 /* AudioPreviewsFetcher.swift */,
+				04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		044D29BC2222CE7C00EB6298 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				042DB35C22229A820062F7A8 /* AudioPreviewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		044D29BF2222CF0B00EB6298 /* AsyncOperation */ = {
+			isa = PBXGroup;
+			children = (
+				044D29C12222D2CE00EB6298 /* Operation.swift */,
+			);
+			path = AsyncOperation;
+			sourceTree = "<group>";
+		};
+		044D29C02222D2B500EB6298 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				044D29BF2222CF0B00EB6298 /* AsyncOperation */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		04EE32CD22232C3D004AF339 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04EE32CE22232C92004AF339 /* TouchSquareView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		11C24883ADD9D24EDC285283 /* Pods */ = {
@@ -256,7 +306,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				044D29C42222F04200EB6298 /* 106_audiopreview.mp3 in Resources */,
 				042DB34222228EDE0062F7A8 /* LaunchScreen.storyboard in Resources */,
+				044D29BB2222C5F900EB6298 /* testFilesConfig.json in Resources */,
 				042DB33F22228EDE0062F7A8 /* Assets.xcassets in Resources */,
 				042DB33D22228EDC0062F7A8 /* Main.storyboard in Resources */,
 			);
@@ -327,6 +379,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-TestAudioEffect/Pods-TestAudioEffect-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/CodableAlamofire/CodableAlamofire.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -334,6 +387,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CodableAlamofire.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -348,9 +402,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				042DB35B222293060062F7A8 /* AudioPreviewsViewController.swift in Sources */,
+				04EE32CC22232C28004AF339 /* AudioEffectViewController.swift in Sources */,
 				042DB35D22229A820062F7A8 /* AudioPreviewCell.swift in Sources */,
-				042DB36022229B220062F7A8 /* AudioPreviewsModel.swift in Sources */,
+				04EE32C82222FD69004AF339 /* AudioPreviewPlayer.swift in Sources */,
+				042DB36022229B220062F7A8 /* AudioPreviewsFetcher.swift in Sources */,
+				044D29C22222D2CE00EB6298 /* Operation.swift in Sources */,
 				042DB36222229B450062F7A8 /* AudioPreview.swift in Sources */,
+				04EE32CF22232C92004AF339 /* TouchSquareView.swift in Sources */,
 				042DB33A22228EDC0062F7A8 /* ViewController.swift in Sources */,
 				042DB33822228EDC0062F7A8 /* AppDelegate.swift in Sources */,
 			);
