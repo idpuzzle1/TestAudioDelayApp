@@ -14,31 +14,31 @@ class AudioPreviewsViewController: UITableViewController {
         static let cellIdentifier = "AudioPreviewCell"
     }
     
-    private var player = AudioPreviewPlayer()
-    private var previewsFetcher: AudioPreviewsFetcher
+    private var model = AudioPreviewsModel(responseQueue: .main)
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.previewsFetcher = LocalFileAudioPreviewsFetcher(responseQueue: .main)
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        self.previewsFetcher.delegate = self
-        self.player.delegate = self
+        self.setupModel()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.previewsFetcher = LocalFileAudioPreviewsFetcher(responseQueue: .main)
         super.init(coder: aDecoder)
-        self.previewsFetcher.delegate = self
-        self.player.delegate = self
+        self.setupModel()
+    }
+    
+    private func setupModel() {
+        model.fetcher.delegate = self
+        model.player.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        previewsFetcher.load()
+        model.fetcher.load()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        player.stop()
+        model.player.stop()
     }
     
     private func showErrorAlert(error: Error) {
@@ -64,7 +64,7 @@ internal extension AudioPreviewsViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return previewsFetcher.previews.count
+        return model.fetcher.previews.count
     }
 }
 
@@ -73,10 +73,10 @@ internal extension AudioPreviewsViewController {
 internal extension AudioPreviewsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let audioCell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! AudioPreviewCell
-        audioCell.preview = previewsFetcher.previews[indexPath.row]
+        audioCell.preview = model.fetcher.previews[indexPath.row]
         audioCell.delegate = self
-        audioCell.audioPreviewView.isLoading = player.loadingState == .loading && player.playingPreview == audioCell.preview
-        audioCell.audioPreviewView.isPlaying = player.isPlaying && player.playingPreview == audioCell.preview
+        audioCell.audioPreviewView.isLoading = model.player.loadingState == .loading && model.player.playingPreview == audioCell.preview
+        audioCell.audioPreviewView.isPlaying = model.player.isPlaying && model.player.playingPreview == audioCell.preview
         return audioCell
     }
 }
@@ -112,7 +112,7 @@ extension AudioPreviewsViewController: AudioPreviewPlayerDelegate {
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPlayPreview preview: AudioPreview) {
-        startLoading(preview: preview)
+        startPlaying(preview: preview)
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPausePreview preview: AudioPreview) {
@@ -125,8 +125,8 @@ extension AudioPreviewsViewController: AudioPreviewPlayerDelegate {
     
     private func startLoading(preview: AudioPreview) {
         tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.audioPreviewView.isLoading = false
-            cell.audioPreviewView.isPlaying = true
+            cell.audioPreviewView.isLoading = true
+            cell.audioPreviewView.isPlaying = false
         }
     }
     
@@ -156,12 +156,12 @@ extension AudioPreviewsViewController: AudioPreviewPlayerDelegate {
 extension AudioPreviewsViewController: AudioPreviewCellDelegate {
     func previewCellDidPlay(_ cell: AudioPreviewCell) {
         guard let preview = cell.preview else { return }
-        player.load(preview: preview, playAfterLoading: true)
+        model.player.load(preview: preview, playAfterLoading: true)
     }
     
     func previewCellDidPause(_ cell: AudioPreviewCell) {
-        if cell.preview == player.playingPreview {
-            player.pause()
+        if cell.preview == model.player.playingPreview {
+            model.player.pause()
         }
     }
 }

@@ -58,6 +58,11 @@ class AudioPreviewView: UIView {
     var isLoading: Bool = false {
         didSet {
             audioLoadingIndicator.isHidden = !isLoading
+            if audioLoadingIndicator.isHidden {
+                audioLoadingIndicator.stopAnimating()
+            } else {
+                audioLoadingIndicator.startAnimating()
+            }
             playAudioButton.isHidden = isLoading
         }
     }

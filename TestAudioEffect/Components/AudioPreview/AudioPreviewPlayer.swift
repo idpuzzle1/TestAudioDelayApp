@@ -24,31 +24,29 @@ class AudioPreviewPlayer: NSObject {
     
     private var engine = AVAudioEngine()
     private var player = AVAudioPlayerNode()
-    private var file: AVAudioFile? {
+    private var playerBuffer: AVAudioPCMBuffer? {
         willSet {
             self.player.stop()
-        } didSet {
-            guard let file = file else { return }
-            let audioFormat = file.processingFormat
-            let audioFrameCount = UInt32(file.length)
-            guard let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else { return }
-            try? file.read(into: audioFileBuffer)
-            player.scheduleBuffer(audioFileBuffer, at: nil, options: loopMode ? .loops : [], completionHandler: { [weak self] in
-                DispatchQueue.main.async {
-                    if !(self?.loopMode ?? false) {
-                        self?.stop()
-                    }
-                }
-            })
         }
     }
+//    private var file: AVAudioFile? {
+//        willSet {
+//            self.player.stop()
+//        } didSet {
+//            guard let file = file else { return }
+//            let audioFormat = file.processingFormat
+//            let audioFrameCount = UInt32(file.length)
+//            guard let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else { return }
+//            try? file.read(into: audioFileBuffer)
+//        }
+//    }
     
     weak var delegate: AudioPreviewPlayerDelegate?
     
     private var session = SessionManager.default
     private weak var loadingTask: DownloadRequest?
     
-    private(set) var loadingState: Operation.State = .unloaded {
+    private(set) var loadingState: OperationState = .unloaded {
         didSet {
             switch loadingState {
             case .unloaded:
@@ -96,7 +94,7 @@ class AudioPreviewPlayer: NSObject {
     
     func cancel() {
         loadingTask?.cancel()
-        file = nil
+        playerBuffer = nil
     }
     
     func load(preview: AudioPreview, playAfterLoading: Bool = true) {
@@ -108,7 +106,7 @@ class AudioPreviewPlayer: NSObject {
             return
         }
         stop()
-        file = nil
+        playerBuffer = nil
         
         playingPreview = preview
         download(audioLink: audioPreviewLink) { [weak self] fileUrl, error in
@@ -124,7 +122,8 @@ class AudioPreviewPlayer: NSObject {
     
     private func loadFile(url: URL, autoPlay: Bool) {
         do {
-            file = try AVAudioFile(forReading: url)
+            let file = try AVAudioFile(forReading: url)
+            playerBuffer = try createBuffer(file: file)
             if autoPlay {
                 self.play()
             }
@@ -133,8 +132,32 @@ class AudioPreviewPlayer: NSObject {
         }
     }
     
+    private func createBuffer(file: AVAudioFile) throws -> AVAudioPCMBuffer? {
+        let audioFormat = file.processingFormat
+        let audioFrameCount = UInt32(file.length)
+        guard let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else { return nil }
+        try file.read(into: audioFileBuffer)
+        return audioFileBuffer
+    }
+    
     func play() {
         if isPlaying { return }
+        guard let playerBuffer = playerBuffer else {
+            return
+        }
+        if loadingState != .loaded && error != nil {
+            if let playingPreview = playingPreview {
+                load(preview: playingPreview, playAfterLoading: true)
+            }
+            return
+        }
+        player.scheduleBuffer(playerBuffer, at: nil, options: loopMode ? .loops : [], completionHandler: { [weak self] in
+            DispatchQueue.main.async {
+                if !(self?.loopMode ?? false) {
+                    self?.stop()
+                }
+            }
+        })
         player.play()
         guard let loadedPreview = playingPreview else { return }
         delegate?.audioPlayer(self, didPlayPreview: loadedPreview)

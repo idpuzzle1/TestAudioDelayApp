@@ -21,12 +21,15 @@ class AudioEffectViewController: UIViewController {
         }
     }
     
-    private var effectModel = AudioEffectModel()
+    private var model = AudioEffectModel()
     
     var preview: AudioPreview? {
-        didSet {
-            effectModel.preview = preview
-            guard let preview = preview else { return }
+        get {
+            return model.preview
+        }
+        set {
+            model.preview = newValue
+            guard let preview = newValue else { return }
             updateView(preview: preview)
         }
     }
@@ -47,11 +50,12 @@ class AudioEffectViewController: UIViewController {
         touchDelayEffectView.layer.cornerRadius = 8
         touchDelayEffectView.clipsToBounds = true
         
-        effectModel.player.delegate = self
-        touchDelayEffectView.currentPosition = Point(x: effectModel.delay.feedback, y: effectModel.delay.wetDryMix)
+        model.player.delegate = self
+        touchDelayEffectView.currentPosition = Point(x: model.delay.feedback, y: model.delay.wetDryMix)
         
         guard let preview = preview else { return }
         updateView(preview: preview)
+        navigationItem.title = preview.name
     }
     
     private func showErrorAlert(error: Error) {
@@ -64,50 +68,50 @@ class AudioEffectViewController: UIViewController {
 
 extension AudioEffectViewController: AudioPreviewViewDelegate {
     func previewDidPlay(_ view: AudioPreviewView) {
-        effectModel.player.play()
+        model.player.play()
     }
     
     func previewDidPause(_ view: AudioPreviewView) {
-        effectModel.player.pause()
+        model.player.pause()
     }
 }
 
 extension AudioEffectViewController: TouchSquareViewDelegate {
     func touchSquare(_ view: TouchSquareView, didUpdatePosition position: Point) {
-        effectModel.delay = Delay(feedback: position.x, wetDryMix: position.y)
+        model.delay = Delay(feedback: position.x, wetDryMix: position.y)
     }
 }
 
 extension AudioEffectViewController: AudioPreviewPlayerDelegate {
     func audioPlayerDidUnload(_ player: AudioPreviewPlayer) {
-        
+        audioPreviewView.isLoading = false
+        audioPreviewView.isPlaying = false
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didStartLoadingPreview preview: AudioPreview) {
-        
+        audioPreviewView.isLoading = true
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didLoadPreview preview: AudioPreview) {
-        
+        audioPreviewView.isLoading = false
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didFailLoadingPreview preview: AudioPreview, error: Error) {
         player.stop()
-        
         showErrorAlert(error: error)
+        audioPreviewView.isLoading = false
+        audioPreviewView.isPlaying = false
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPlayPreview preview: AudioPreview) {
-        
+        audioPreviewView.isPlaying = true
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPausePreview preview: AudioPreview) {
-        
+        audioPreviewView.isPlaying = false
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didStopPreview preview: AudioPreview) {
-        
+        audioPreviewView.isPlaying = false
     }
-    
-    
 }

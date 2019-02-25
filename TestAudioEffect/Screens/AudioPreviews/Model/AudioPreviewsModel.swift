@@ -1,26 +1,20 @@
 //
-//  AudioPreviewsFetcher.swift
+//  AudioPreviewsModel.swift
 //  TestAudioEffect
 //
-//  Created by Антон Уханкин on 24/02/2019.
+//  Created by Антон Уханкин on 25/02/2019.
 //  Copyright © 2019 idpuzzle1. All rights reserved.
 //
 
-import Alamofire
-import CodableAlamofire
+import Foundation
 
-protocol AudioPreviewsFetcher {
-    var state: Operation.State { get }
-    var previews: [AudioPreview] { get }
-    var lastLoadingError: Error? { get }
+class AudioPreviewsModel {
+    private(set) var player = AudioPreviewPlayer()
+    private(set) var fetcher: AudioPreviewsFetcher
     
-    var delegate: AudioPreviewsFetcherDelegate? { get set }
-    func load()
-}
-
-protocol AudioPreviewsFetcherDelegate: class {
-    func fetcher(_ fetcher: AudioPreviewsFetcher, didLoadItems newItems:[AudioPreview])
-    func fetcher(_ fetcher: AudioPreviewsFetcher, didFailLoading error: Error)
+    init(responseQueue: DispatchQueue) {
+        self.fetcher = LocalFileAudioPreviewsFetcher(responseQueue: responseQueue)
+    }
 }
 
 class LocalFileAudioPreviewsFetcher: AudioPreviewsFetcher {
@@ -29,7 +23,7 @@ class LocalFileAudioPreviewsFetcher: AudioPreviewsFetcher {
         case decodingError
     }
     
-    private(set) var state: Operation.State = .unloaded
+    private(set) var state: OperationState = .unloaded
     var previews: [AudioPreview] = []
     var lastLoadingError: Error? {
         didSet {
@@ -45,7 +39,7 @@ class LocalFileAudioPreviewsFetcher: AudioPreviewsFetcher {
         self.delegate = delegate
         self.reponseQueue = responseQueue
     }
-
+    
     func load() {
         if state == .loading { return }
         state = .loading
