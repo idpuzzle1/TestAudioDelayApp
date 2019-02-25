@@ -29,17 +29,6 @@ class AudioPreviewPlayer: NSObject {
             self.player.stop()
         }
     }
-//    private var file: AVAudioFile? {
-//        willSet {
-//            self.player.stop()
-//        } didSet {
-//            guard let file = file else { return }
-//            let audioFormat = file.processingFormat
-//            let audioFrameCount = UInt32(file.length)
-//            guard let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else { return }
-//            try? file.read(into: audioFileBuffer)
-//        }
-//    }
     
     weak var delegate: AudioPreviewPlayerDelegate?
     
@@ -59,15 +48,16 @@ class AudioPreviewPlayer: NSObject {
                 delegate?.audioPlayer(self, didStartLoadingPreview: loadedPreview)
             case  .loaded:
                 guard let loadedPreview = playingPreview else { return }
-                if let error = error {
-                    delegate?.audioPlayer(self, didFailLoadingPreview: loadedPreview, error: error)
-                } else {
-                    delegate?.audioPlayer(self, didLoadPreview: loadedPreview)
-                }
+                delegate?.audioPlayer(self, didLoadPreview: loadedPreview)
             }
         }
     }
-    var error: Error?
+    var error: Error? {
+        didSet {
+            guard let loadedPreview = playingPreview, let error = error else { return }
+            delegate?.audioPlayer(self, didFailLoadingPreview: loadedPreview, error: error)
+        }
+    }
     
     private(set) var playingPreview: AudioPreview?
     var loopMode: Bool = false
@@ -99,7 +89,7 @@ class AudioPreviewPlayer: NSObject {
     
     func load(preview: AudioPreview, playAfterLoading: Bool = true) {
         guard let audioPreviewLink = preview.audioPreviewLink else { return }
-        if preview == playingPreview && error == nil {
+        if loadingState == .loaded, preview == playingPreview && error == nil {
             if playAfterLoading {
                 self.play()
             }
@@ -111,12 +101,11 @@ class AudioPreviewPlayer: NSObject {
         playingPreview = preview
         download(audioLink: audioPreviewLink) { [weak self] fileUrl, error in
             guard let `self` = self else { return }
-            if let fileUrl = fileUrl, error != nil {
+            if let fileUrl = fileUrl, error == nil {
                 self.loadFile(url: fileUrl, autoPlay: playAfterLoading)
             } else {
                 self.error = error
             }
-            self.loadingState = .loaded
         }
     }
     
@@ -142,21 +131,22 @@ class AudioPreviewPlayer: NSObject {
     
     func play() {
         if isPlaying { return }
-        guard let playerBuffer = playerBuffer, loadingState == .loaded || error == nil else {
+        guard let playerBuffer = playerBuffer, loadingState == .loaded, error == nil else {
             if let playingPreview = playingPreview {
                 load(preview: playingPreview, playAfterLoading: true)
             }
             return
         }
+        guard let loadedPreview = playingPreview else { return }
         player.scheduleBuffer(playerBuffer, at: nil, options: loopMode ? .loops : [], completionHandler: { [weak self] in
             DispatchQueue.main.async {
-                if !(self?.loopMode ?? false) {
+                if !(self?.loopMode ?? false), loadedPreview == self?.playingPreview {
                     self?.stop()
                 }
             }
         })
         player.play()
-        guard let loadedPreview = playingPreview else { return }
+        
         delegate?.audioPlayer(self, didPlayPreview: loadedPreview)
     }
     
@@ -182,12 +172,19 @@ class AudioPreviewPlayer: NSObject {
         if loadingTask?.request?.url == audioLink && (loadingTask?.task?.state == .running) {
             return
         }
+        let destinationPath = self.fileDestination(url: audioLink)
+        if  FileManager.default.fileExists(atPath: destinationPath.path) {
+            self.loadingState = .loaded
+            completion(destinationPath, nil)
+            return
+        }
         self.loadingState = .loading
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-            return (self.fileDestination(url: audioLink), [.createIntermediateDirectories])
+            return (destinationPath, [.createIntermediateDirectories])
         }
         
-        let request = session.download(audioLink, to: destination).response(queue: .main) { response in
+        let request = session.download(audioLink, to: destination).response { response in
+            self.loadingState = .loaded
             completion(response.destinationURL, response.error)
         }
         self.loadingTask = request

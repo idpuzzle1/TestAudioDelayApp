@@ -56,6 +56,9 @@ class AudioEffectViewController: UIViewController {
         guard let preview = preview else { return }
         updateView(preview: preview)
         navigationItem.title = preview.name
+        
+        audioPreviewView.isLoading = model.player.loadingState == .loading
+        audioPreviewView.isPlaying = model.player.isPlaying
     }
     
     private func showErrorAlert(error: Error) {
