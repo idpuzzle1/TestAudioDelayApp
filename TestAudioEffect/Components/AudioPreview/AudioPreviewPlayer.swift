@@ -142,10 +142,7 @@ class AudioPreviewPlayer: NSObject {
     
     func play() {
         if isPlaying { return }
-        guard let playerBuffer = playerBuffer else {
-            return
-        }
-        if loadingState != .loaded && error != nil {
+        guard let playerBuffer = playerBuffer, loadingState == .loaded || error == nil else {
             if let playingPreview = playingPreview {
                 load(preview: playingPreview, playAfterLoading: true)
             }
