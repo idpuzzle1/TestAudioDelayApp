@@ -21,14 +21,34 @@ protocol AudioPreviewPlayerDelegate: class {
 }
 
 class AudioPreviewPlayer: NSObject {
-    private var player: AVAudioPlayer?
+    
+    private var engine = AVAudioEngine()
+    private var player = AVAudioPlayerNode()
+    private var file: AVAudioFile? {
+        willSet {
+            self.player.stop()
+        } didSet {
+            guard let file = file else { return }
+            let audioFormat = file.processingFormat
+            let audioFrameCount = UInt32(file.length)
+            guard let audioFileBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else { return }
+            try? file.read(into: audioFileBuffer)
+            player.scheduleBuffer(audioFileBuffer, at: nil, options: loopMode ? .loops : [], completionHandler: { [weak self] in
+                DispatchQueue.main.async {
+                    if !(self?.loopMode ?? false) {
+                        self?.stop()
+                    }
+                }
+            })
+        }
+    }
     
     weak var delegate: AudioPreviewPlayerDelegate?
     
     private var session = SessionManager.default
-    private var loadingTask: DownloadRequest?
+    private weak var loadingTask: DownloadRequest?
     
-    var loadingState: Operation.State = .unloaded {
+    private(set) var loadingState: Operation.State = .unloaded {
         didSet {
             switch loadingState {
             case .unloaded:
@@ -51,7 +71,34 @@ class AudioPreviewPlayer: NSObject {
     }
     var error: Error?
     
-    var playingPreview: AudioPreview?
+    private(set) var playingPreview: AudioPreview?
+    var loopMode: Bool = false
+    
+    override init() {
+        super.init()
+        connect(effectBuilder: nil)
+    }
+    
+    func connect(effectBuilder: ((AVAudioEngine, AVAudioPlayerNode) -> AVAudioNode)?) {
+        engine.stop()
+        engine.attach(player)
+        if let effects = effectBuilder?(engine, player) {
+            engine.connect(player, to: effects, format: nil)
+            engine.connect(effects, to: engine.mainMixerNode, format: nil)
+        } else {
+            engine.connect(player, to: engine.mainMixerNode, format: nil)
+        }
+        engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
+        
+        engine.prepare()
+        try? engine.start()
+    }
+    
+    func cancel() {
+        loadingTask?.cancel()
+        file = nil
+    }
+    
     func load(preview: AudioPreview, playAfterLoading: Bool = true) {
         guard let audioPreviewLink = preview.audioPreviewLink else { return }
         if preview == playingPreview && error == nil {
@@ -61,13 +108,13 @@ class AudioPreviewPlayer: NSObject {
             return
         }
         stop()
-        player = nil
+        file = nil
         
         playingPreview = preview
         download(audioLink: audioPreviewLink) { [weak self] fileUrl, error in
             guard let `self` = self else { return }
             if let fileUrl = fileUrl, error != nil {
-                self.loadPlayer(url: fileUrl, autoPlay: playAfterLoading)
+                self.loadFile(url: fileUrl, autoPlay: playAfterLoading)
             } else {
                 self.error = error
             }
@@ -75,11 +122,9 @@ class AudioPreviewPlayer: NSObject {
         }
     }
     
-    private func loadPlayer(url: URL, autoPlay: Bool) {
+    private func loadFile(url: URL, autoPlay: Bool) {
         do {
-            self.player = try AVAudioPlayer(contentsOf: url)
-            self.player?.delegate = self
-            
+            file = try AVAudioFile(forReading: url)
             if autoPlay {
                 self.play()
             }
@@ -89,25 +134,28 @@ class AudioPreviewPlayer: NSObject {
     }
     
     func play() {
-        player?.play()
+        if isPlaying { return }
+        player.play()
         guard let loadedPreview = playingPreview else { return }
         delegate?.audioPlayer(self, didPlayPreview: loadedPreview)
     }
     
     func pause() {
-        player?.pause()
+        if !isPlaying { return }
+        player.pause()
         guard let loadedPreview = playingPreview else { return }
         delegate?.audioPlayer(self, didPausePreview: loadedPreview)
     }
     
     func stop() {
-        player?.stop()
+        if !isPlaying { return }
+        player.stop()
         guard let loadedPreview = playingPreview else { return }
         delegate?.audioPlayer(self, didStopPreview: loadedPreview)
     }
     
     var isPlaying: Bool {
-        return loadingState == .loaded && player?.isPlaying ?? false
+        return loadingState == .loaded && player.isPlaying
     }
     
     private func download(audioLink: URL, completion: @escaping (URL?, Error?) -> Void) {
@@ -128,6 +176,11 @@ class AudioPreviewPlayer: NSObject {
     private func fileDestination(url: URL) -> URL {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return documentsURL.appendingPathComponent("\(url.lastPathComponent)")
+    }
+    
+    deinit {
+        player.stop()
+        engine.stop()
     }
 }
 

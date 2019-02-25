@@ -23,6 +23,12 @@
 		04EE32C82222FD69004AF339 /* AudioPreviewPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */; };
 		04EE32CC22232C28004AF339 /* AudioEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */; };
 		04EE32CF22232C92004AF339 /* TouchSquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32CE22232C92004AF339 /* TouchSquareView.swift */; };
+		04EE32D12223D67A004AF339 /* AudioPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32D02223D67A004AF339 /* AudioPreviewView.swift */; };
+		04EE32D32223D7A1004AF339 /* AudioPreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EE32D22223D7A1004AF339 /* AudioPreviewView.xib */; };
+		04EE32D62223E2F0004AF339 /* AudioEffectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32D52223E2F0004AF339 /* AudioEffectModel.swift */; };
+		04EE32D92223F428004AF339 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32D82223F428004AF339 /* Point.swift */; };
+		04EE32DB2223F434004AF339 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32DA2223F434004AF339 /* Range.swift */; };
+		04EE32DD2223F43E004AF339 /* FlatRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EE32DC2223F43E004AF339 /* FlatRange.swift */; };
 		35A98D3A88DC9FAF902B805E /* Pods_TestAudioEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DF8A2DE7C60FDE6761026F /* Pods_TestAudioEffect.framework */; };
 		80D5B484EDB9AA5EEC27EC60 /* Pods_TestAudioEffectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81746CBD5ED4BAE4C1C80981 /* Pods_TestAudioEffectTests.framework */; };
 /* End PBXBuildFile section */
@@ -58,6 +64,12 @@
 		04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewPlayer.swift; sourceTree = "<group>"; };
 		04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEffectViewController.swift; sourceTree = "<group>"; };
 		04EE32CE22232C92004AF339 /* TouchSquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchSquareView.swift; sourceTree = "<group>"; };
+		04EE32D02223D67A004AF339 /* AudioPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewView.swift; sourceTree = "<group>"; };
+		04EE32D22223D7A1004AF339 /* AudioPreviewView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioPreviewView.xib; sourceTree = "<group>"; };
+		04EE32D52223E2F0004AF339 /* AudioEffectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEffectModel.swift; sourceTree = "<group>"; };
+		04EE32D82223F428004AF339 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		04EE32DA2223F434004AF339 /* Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
+		04EE32DC2223F43E004AF339 /* FlatRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatRange.swift; sourceTree = "<group>"; };
 		41944A5BA0DEC59F1FE53C6D /* Pods-TestAudioEffectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAudioEffectTests.debug.xcconfig"; path = "Target Support Files/Pods-TestAudioEffectTests/Pods-TestAudioEffectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D2A2CB271CAD48F2186AB50 /* Pods-TestAudioEffectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAudioEffectTests.release.xcconfig"; path = "Target Support Files/Pods-TestAudioEffectTests/Pods-TestAudioEffectTests.release.xcconfig"; sourceTree = "<group>"; };
 		81746CBD5ED4BAE4C1C80981 /* Pods_TestAudioEffectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestAudioEffectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +121,7 @@
 		042DB33622228EDC0062F7A8 /* TestAudioEffect */ = {
 			isa = PBXGroup;
 			children = (
-				044D29C02222D2B500EB6298 /* Services */,
+				044D29C02222D2B500EB6298 /* Components */,
 				042DB357222292880062F7A8 /* Screens */,
 				044D29BA2222C5F900EB6298 /* testFilesConfig.json */,
 				044D29C32222F04200EB6298 /* 106_audiopreview.mp3 */,
@@ -154,6 +166,7 @@
 		042DB359222292AB0062F7A8 /* AudioEffect */ = {
 			isa = PBXGroup;
 			children = (
+				04EE32D42223E2DF004AF339 /* Model */,
 				04EE32CD22232C3D004AF339 /* View */,
 				04EE32CB22232C28004AF339 /* AudioEffectViewController.swift */,
 			);
@@ -163,9 +176,7 @@
 		042DB35E22229B120062F7A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				042DB36122229B450062F7A8 /* AudioPreview.swift */,
 				042DB35F22229B220062F7A8 /* AudioPreviewsFetcher.swift */,
-				04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				042DB35C22229A820062F7A8 /* AudioPreviewCell.swift */,
+				04EE32D02223D67A004AF339 /* AudioPreviewView.swift */,
+				04EE32D22223D7A1004AF339 /* AudioPreviewView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,12 +199,14 @@
 			path = AsyncOperation;
 			sourceTree = "<group>";
 		};
-		044D29C02222D2B500EB6298 /* Services */ = {
+		044D29C02222D2B500EB6298 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				04EE32DE22240217004AF339 /* AudioPreview */,
+				04EE32D72223F3F3004AF339 /* Structs */,
 				044D29BF2222CF0B00EB6298 /* AsyncOperation */,
 			);
-			path = Services;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		04EE32CD22232C3D004AF339 /* View */ = {
@@ -200,6 +215,33 @@
 				04EE32CE22232C92004AF339 /* TouchSquareView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		04EE32D42223E2DF004AF339 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				04EE32D52223E2F0004AF339 /* AudioEffectModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04EE32D72223F3F3004AF339 /* Structs */ = {
+			isa = PBXGroup;
+			children = (
+				04EE32D82223F428004AF339 /* Point.swift */,
+				04EE32DA2223F434004AF339 /* Range.swift */,
+				04EE32DC2223F43E004AF339 /* FlatRange.swift */,
+			);
+			path = Structs;
+			sourceTree = "<group>";
+		};
+		04EE32DE22240217004AF339 /* AudioPreview */ = {
+			isa = PBXGroup;
+			children = (
+				04EE32C72222FD69004AF339 /* AudioPreviewPlayer.swift */,
+				042DB36122229B450062F7A8 /* AudioPreview.swift */,
+			);
+			path = AudioPreview;
 			sourceTree = "<group>";
 		};
 		11C24883ADD9D24EDC285283 /* Pods */ = {
@@ -306,6 +348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04EE32D32223D7A1004AF339 /* AudioPreviewView.xib in Resources */,
 				044D29C42222F04200EB6298 /* 106_audiopreview.mp3 in Resources */,
 				042DB34222228EDE0062F7A8 /* LaunchScreen.storyboard in Resources */,
 				044D29BB2222C5F900EB6298 /* testFilesConfig.json in Resources */,
@@ -402,15 +445,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				042DB35B222293060062F7A8 /* AudioPreviewsViewController.swift in Sources */,
+				04EE32D62223E2F0004AF339 /* AudioEffectModel.swift in Sources */,
 				04EE32CC22232C28004AF339 /* AudioEffectViewController.swift in Sources */,
 				042DB35D22229A820062F7A8 /* AudioPreviewCell.swift in Sources */,
+				04EE32D92223F428004AF339 /* Point.swift in Sources */,
 				04EE32C82222FD69004AF339 /* AudioPreviewPlayer.swift in Sources */,
 				042DB36022229B220062F7A8 /* AudioPreviewsFetcher.swift in Sources */,
 				044D29C22222D2CE00EB6298 /* Operation.swift in Sources */,
+				04EE32D12223D67A004AF339 /* AudioPreviewView.swift in Sources */,
 				042DB36222229B450062F7A8 /* AudioPreview.swift in Sources */,
 				04EE32CF22232C92004AF339 /* TouchSquareView.swift in Sources */,
 				042DB33A22228EDC0062F7A8 /* ViewController.swift in Sources */,
 				042DB33822228EDC0062F7A8 /* AppDelegate.swift in Sources */,
+				04EE32DD2223F43E004AF339 /* FlatRange.swift in Sources */,
+				04EE32DB2223F434004AF339 /* Range.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

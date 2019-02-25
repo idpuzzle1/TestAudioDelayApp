@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AudioPreviewView" customModule="TestAudioEffect" customModuleProvider="target">
+            <connections>
+                <outlet property="audioLoadingIndicator" destination="67d-6B-P7k" id="ayV-a3-Ufi"/>
+                <outlet property="audioName" destination="IyV-fs-Wwv" id="ODi-gW-uKr"/>
+                <outlet property="playAudioButton" destination="IK6-my-cq7" id="ANe-Y6-Pra"/>
+                <outlet property="thumbImageView" destination="ry6-vk-rNY" id="EcE-25-Bad"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHv-hx-Nbw">
+                    <rect key="frame" x="8" y="8" width="64" height="64"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ry6-vk-rNY">
+                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                        </imageView>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="67d-6B-P7k">
+                            <rect key="frame" x="22" y="22" width="20" height="20"/>
+                        </activityIndicatorView>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IK6-my-cq7">
+                            <rect key="frame" x="8" y="8" width="48" height="48"/>
+                            <state key="normal" title="Button" image="play"/>
+                            <state key="selected" image="pause"/>
+                            <connections>
+                                <action selector="playPause:" destination="-1" eventType="touchUpInside" id="Vhz-e6-Xjy"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="IK6-my-cq7" secondAttribute="trailing" constant="8" id="3dW-4N-cfE"/>
+                        <constraint firstItem="ry6-vk-rNY" firstAttribute="leading" secondItem="VHv-hx-Nbw" secondAttribute="leading" id="BU1-zt-xmv"/>
+                        <constraint firstItem="IK6-my-cq7" firstAttribute="leading" secondItem="VHv-hx-Nbw" secondAttribute="leading" constant="8" id="CZ5-SD-lmW"/>
+                        <constraint firstItem="ry6-vk-rNY" firstAttribute="top" secondItem="VHv-hx-Nbw" secondAttribute="top" id="N8H-bv-tKL"/>
+                        <constraint firstAttribute="bottom" secondItem="IK6-my-cq7" secondAttribute="bottom" constant="8" id="S1D-Rs-FOF"/>
+                        <constraint firstAttribute="width" secondItem="VHv-hx-Nbw" secondAttribute="height" multiplier="1:1" id="Wif-dy-XXT"/>
+                        <constraint firstAttribute="bottom" secondItem="ry6-vk-rNY" secondAttribute="bottom" id="bVs-0Y-mu4"/>
+                        <constraint firstAttribute="height" constant="64" id="ccV-0r-6ds"/>
+                        <constraint firstAttribute="trailing" secondItem="ry6-vk-rNY" secondAttribute="trailing" id="gX4-tH-fzO"/>
+                        <constraint firstItem="IK6-my-cq7" firstAttribute="top" secondItem="VHv-hx-Nbw" secondAttribute="top" constant="8" id="kzl-l9-pg9"/>
+                        <constraint firstItem="67d-6B-P7k" firstAttribute="centerY" secondItem="VHv-hx-Nbw" secondAttribute="centerY" id="lgk-1J-fYy"/>
+                        <constraint firstItem="67d-6B-P7k" firstAttribute="centerX" secondItem="VHv-hx-Nbw" secondAttribute="centerX" id="zoq-uc-dXQ"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IyV-fs-Wwv">
+                    <rect key="frame" x="80" y="8" width="287" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="VHv-hx-Nbw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="1Fd-SD-EFS"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="IyV-fs-Wwv" secondAttribute="bottom" constant="8" id="Csv-Rb-3B5"/>
+                <constraint firstItem="IyV-fs-Wwv" firstAttribute="top" secondItem="VHv-hx-Nbw" secondAttribute="top" id="KhY-gG-KYY"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IyV-fs-Wwv" secondAttribute="trailing" constant="8" id="Ll6-MZ-7bZ"/>
+                <constraint firstItem="IyV-fs-Wwv" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="cRx-CN-oeR"/>
+                <constraint firstItem="IyV-fs-Wwv" firstAttribute="leading" secondItem="VHv-hx-Nbw" secondAttribute="trailing" constant="8" id="peK-V2-sWH"/>
+                <constraint firstItem="VHv-hx-Nbw" firstAttribute="width" secondItem="VHv-hx-Nbw" secondAttribute="height" multiplier="1:1" id="vqQ-FU-okc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="VHv-hx-Nbw" secondAttribute="bottom" constant="8" id="z66-3g-uY6"/>
+                <constraint firstItem="VHv-hx-Nbw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="zTZ-D2-uXP"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="152.80000000000001" y="-210.49475262368819"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="pause" width="1200" height="1200"/>
+        <image name="play" width="384" height="384"/>
+    </resources>
+</document>

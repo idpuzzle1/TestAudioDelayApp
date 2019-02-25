@@ -8,15 +8,97 @@
 
 import UIKit
 
-struct Point {
-    var x: Float
-    var y: Float
+protocol TouchSquareViewDelegate: class {
+    func touchSquare(_ view: TouchSquareView, didUpdatePosition position: Point)
+}
+
+@IBDesignable
+class TouchSquareView: UIView {
+    var range: FlatRange = FlatRange(minX: -1, minY: -1, maxX: 1, maxY: 1)
     
-    init(x: Float, y: Float) {
-        self.x = x
-        self.y = y
+    private var tapCircleLayer: CAShapeLayer = {
+        let circleSublayer = CAShapeLayer.init()
+        circleSublayer.bounds = CGRect(x: 0, y: 0, width: 32, height: 32)
+        circleSublayer.borderWidth = 2
+        circleSublayer.borderColor = UIColor.gray.cgColor
+        circleSublayer.cornerRadius = circleSublayer.bounds.width/2
+        return circleSublayer
+    }()
+    var currentPosition: Point = .zero {
+        didSet {
+            if currentPosition != oldValue {
+                updateTapCirclePosition()
+                delegate?.touchSquare(self, didUpdatePosition: currentPosition)
+            }
+        }
     }
     
+    weak var delegate: TouchSquareViewDelegate?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupSublayers()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupSublayers()
+    }
+    
+    private func setupSublayers() {
+        layer.addSublayer(tapCircleLayer)
+    }
+    
+    override func layoutSubviews() {
+        updateTapCirclePosition()
+        super.layoutSubviews()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard event?.type == UIEvent.EventType.touches, let firstFingerTouch = touches.first else {
+            return
+        }
+        setTapPoint(for: firstFingerTouch)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        guard event?.type == UIEvent.EventType.touches, let firstFingerTouch = touches.first else {
+            return
+        }
+        setTapPoint(for: firstFingerTouch)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        setTapPoint(for: nil)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        setTapPoint(for: nil)
+    }
+    
+    private func setTapPoint(for touch: UITouch?) {
+        guard let touch = touch else {
+            return
+        }
+        let boundsRange = FlatRange(cgRect: bounds)
+        let tapLocation = touch.location(in: self)
+        currentPosition = range.scale(point: Point(cgPoint: tapLocation), from: boundsRange)
+    }
+    
+    private func updateTapCirclePosition() {
+        let boundsRange = FlatRange(cgRect: bounds)
+        let tapLocation = boundsRange.scale(point: currentPosition, from: range).cgPoint
+        if tapCircleLayer.position != tapLocation {
+            tapCircleLayer.position = tapLocation
+        }
+    }
+}
+
+private extension Point {
     init(cgPoint: CGPoint) {
         self.init(x: Float(cgPoint.x), y: Float(cgPoint.y))
     }
@@ -26,81 +108,10 @@ struct Point {
     }
 }
 
-struct Range {
-    var min: Float
-    var max: Float
-    
-    static var zero: Range {
-        return Range(min: 0, max: 0)
-    }
-    
-    func scale(value: Float, to range: Range) -> Float {
-        return ((value - range.min) * (self.max - self.min)/(range.max - range.min)) + self.min
-    }
-}
-
-struct FlatRange {
-    var horizontal: Range
-    var vertical: Range
-    
-    init(horizontal: Range, vertical: Range) {
-        self.horizontal = horizontal
-        self.vertical = vertical
-    }
-    
-    init(minX: Float, minY: Float, maxX: Float, maxY: Float) {
-        self.init(horizontal: Range(min: minX, max: minX), vertical: Range(min: minY, max: maxY))
-    }
-    
+private extension FlatRange {
     init(cgRect: CGRect) {
-        self.init(minX: Float(cgRect.minX), minY: Float(cgRect.minY), maxX: Float(cgRect.maxX), maxY: Float(cgRect.maxY))
-    }
-    
-    static var zero: FlatRange {
-        return FlatRange(horizontal: .zero, vertical: .zero)
-    }
-    
-    func scale(point: Point, to flatRange: FlatRange) -> Point {
-        return Point(x: horizontal.scale(value: point.x, to: flatRange.horizontal), y: vertical.scale(value: point.y, to: flatRange.vertical))
-    }
-}
-
-@IBDesignable
-class TouchSquareView: UIView {
-    var range: FlatRange = FlatRange(minX: -1, minY: -1, maxX: 1, maxY: 1)
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    private func setupView() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(tap(gesture:)))
-        addGestureRecognizer(gesture)
-    }
-    
-    override func draw(_ rect: CGRect) {
-        if let tapPoint = tapPoint {
-            let frameRange = FlatRange(cgRect: rect)
-            let convertedPoint = range.scale(point: tapPoint, to: frameRange)
-            let path = UIBezierPath(arcCenter: convertedPoint.cgPoint, radius: 8, startAngle: 0, endAngle: CGFloat.pi, clockwise: false)
-            path.lineWidth = 2
-            UIColor.black.setStroke()
-            path.stroke()
-        }
-        super.draw(rect)
-    }
-    
-    private var tapPoint: Point?
-    @objc private func tap(gesture: UIGestureRecognizer) {
-        switch gesture.state {
-        case .began, .changed:
-            tapPoint = Point(cgPoint: gesture.location(in: self))
-        case .possible, .cancelled, .ended, .failed:
-            tapPoint = nil
-        }
+        let horizontal = Range(min: Float(cgRect.minX), max: Float(cgRect.maxX))
+        let vertical = Range(min: Float(cgRect.minY), max: Float(cgRect.maxY))
+        self.init(horizontal: horizontal, vertical: vertical)
     }
 }

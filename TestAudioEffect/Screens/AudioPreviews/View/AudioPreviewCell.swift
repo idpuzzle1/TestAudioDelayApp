@@ -7,76 +7,50 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireImage
-import AVFoundation
 
 protocol AudioPreviewCellDelegate: class {
-    func audioCellDidPlay(_ cell: AudioPreviewCell)
-    func audioCellDidPause(_ cell: AudioPreviewCell)
+    func previewCellDidPlay(_ cell: AudioPreviewCell)
+    func previewCellDidPause(_ cell: AudioPreviewCell)
 }
 
 class AudioPreviewCell: UITableViewCell {
     
-    private struct Constants {
-        static let playImage = "play"
-        static let pauseImage = "pause"
-    }
-    
     weak var delegate: AudioPreviewCellDelegate?
     
-    @IBOutlet weak var thumbImageView: UIImageView!
-    @IBOutlet weak var audioLoadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var playAudioButton: UIButton!
-    @IBOutlet weak var audioName: UILabel!
-    
-    var isLoading: Bool = false {
+    @IBOutlet weak var audioPreviewView: AudioPreviewView! {
         didSet {
-            audioLoadingIndicator.isHidden = !isLoading
-            playAudioButton.isHidden = isLoading
+            audioPreviewView.delegate = self
         }
     }
     
     var preview: AudioPreview? {
         didSet {
             guard let preview = preview else { return }
-            updateCell(preview: preview)
+            updateView(preview: preview)
+        }
+    }
+    
+    private func updateView(preview: AudioPreview) {
+        audioPreviewView.audioName.text = preview.name
+        if let thumbLink = preview.thumbLink {
+            audioPreviewView.thumbImageView.af_setImage(withURL: thumbLink)
         }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        thumbImageView.af_cancelImageRequest()
-        thumbImageView.image = nil
+        audioPreviewView.thumbImageView.af_cancelImageRequest()
+    }
+}
+
+extension AudioPreviewCell: AudioPreviewViewDelegate {
+    func previewDidPlay(_ view: AudioPreviewView) {
+        delegate?.previewCellDidPlay(self)
     }
     
-    private func updateCell(preview: AudioPreview) {
-        audioName.text = preview.name
-        if let thumbLink = preview.thumbLink {
-            thumbImageView.af_setImage(withURL: thumbLink)
-        }
+    func previewDidPause(_ view: AudioPreviewView) {
+        delegate?.previewCellDidPause(self)
     }
     
-    @IBAction func playPause(_ sender: Any) {
-        isPlaying = !isPlaying
-    }
     
-    var isPlaying: Bool {
-        get {
-            return playAudioButton.isSelected
-        }
-        set {
-            guard isPlaying != newValue else { return }
-            playAudioButton.isSelected = newValue
-            notifyPlaying()
-        }
-    }
-    
-    private func notifyPlaying() {
-        if isPlaying {
-            delegate?.audioCellDidPlay(self)
-        } else {
-            delegate?.audioCellDidPause(self)
-        }
-    }
 }

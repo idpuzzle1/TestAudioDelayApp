@@ -27,21 +27,6 @@ extension Operation {
             }
         }
     }
-    
-    enum Result<Value> {
-        case success(result: Value)
-        case failure(error: Error)
-    }
-}
-
-protocol OperationTask {
-    associatedtype Value
-
-    var state: Operation.State { get }
-    var result: Operation.Result<Value>? { get }
-    
-    func start()
-    func stop()
 }
 
 

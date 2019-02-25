@@ -47,6 +47,13 @@ class AudioPreviewsViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let effectVC = segue.destination as? AudioEffectViewController, let choosenAudioCell = sender as? AudioPreviewCell {
+            effectVC.preview = choosenAudioCell.preview
+        }
+        super.prepare(for: segue, sender: sender)
+    }
+    
 }
 
 //MARK: - Data Source
@@ -68,8 +75,8 @@ internal extension AudioPreviewsViewController {
         let audioCell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! AudioPreviewCell
         audioCell.preview = previewsFetcher.previews[indexPath.row]
         audioCell.delegate = self
-        audioCell.isLoading = player.loadingState == .loading && player.playingPreview == audioCell.preview
-        audioCell.isPlaying = player.isPlaying && player.playingPreview == audioCell.preview
+        audioCell.audioPreviewView.isLoading = player.loadingState == .loading && player.playingPreview == audioCell.preview
+        audioCell.audioPreviewView.isPlaying = player.isPlaying && player.playingPreview == audioCell.preview
         return audioCell
     }
 }
@@ -88,69 +95,71 @@ extension AudioPreviewsViewController: AudioPreviewsFetcherDelegate {
 
 extension AudioPreviewsViewController: AudioPreviewPlayerDelegate {
     func audioPlayerDidUnload(_ player: AudioPreviewPlayer) {
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).forEach { cell in
-            cell.isLoading = false
-            cell.isPlaying = false
-        }
+        stopPlaying()
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didStartLoadingPreview preview: AudioPreview) {
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).forEach { cell in
-            if cell.preview?.audioPreviewLink == preview.audioPreviewLink {
-                cell.isLoading = true
-            } else {
-                cell.isPlaying = false
-            }
-        }
+        startLoading(preview: preview)
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didLoadPreview preview: AudioPreview) {
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.isLoading = false
-        }
+        finishLoading(preview: preview)
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didFailLoadingPreview preview: AudioPreview, error: Error) {
+        stopPlaying()
         showErrorAlert(error: error)
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.isLoading = false
-            cell.isPlaying = false
-        }
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPlayPreview preview: AudioPreview) {
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.isLoading = false
-            cell.isPlaying = true
-        }
+        startLoading(preview: preview)
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didPausePreview preview: AudioPreview) {
-        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.isLoading = false
-            cell.isPlaying = false
-        }
+        stopPlaying()
     }
     
     func audioPlayer(_ player: AudioPreviewPlayer, didStopPreview preview: AudioPreview) {
+        stopPlaying()
+    }
+    
+    private func startLoading(preview: AudioPreview) {
         tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
-            cell.isLoading = false
-            cell.isPlaying = false
+            cell.audioPreviewView.isLoading = false
+            cell.audioPreviewView.isPlaying = true
         }
     }
     
+    private func finishLoading(preview: AudioPreview) {
+        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
+            cell.audioPreviewView.isLoading = false
+        }
+    }
     
+    private func startPlaying(preview: AudioPreview) {
+        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).filter({ $0.preview ==  preview}).forEach { cell in
+            cell.audioPreviewView.isLoading = false
+            cell.audioPreviewView.isPlaying = true
+        }
+    }
+    
+    private func stopPlaying() {
+        tableView.visibleCells.compactMap({$0 as? AudioPreviewCell}).forEach { cell in
+            cell.audioPreviewView.isLoading = false
+            cell.audioPreviewView.isPlaying = false
+        }
+    }
 }
 
 //MARK: - Audio Cell Delegate
 
 extension AudioPreviewsViewController: AudioPreviewCellDelegate {
-    func audioCellDidPlay(_ cell: AudioPreviewCell) {
+    func previewCellDidPlay(_ cell: AudioPreviewCell) {
         guard let preview = cell.preview else { return }
         player.load(preview: preview, playAfterLoading: true)
     }
     
-    func audioCellDidPause(_ cell: AudioPreviewCell) {
+    func previewCellDidPause(_ cell: AudioPreviewCell) {
         if cell.preview == player.playingPreview {
             player.pause()
         }
